@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.appnew'
+    namespace 'com.example.prm392_project'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.appnew"
+        applicationId "com.example.prm392_project"
         minSdk 24
         targetSdk 34
         versionCode 1

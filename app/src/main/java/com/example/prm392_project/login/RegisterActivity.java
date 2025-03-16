@@ -1,7 +1,5 @@
 package com.example.prm392_project.login;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +10,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.prm392_project.MainActivity;
-import com.example.appnew.R;
+import com.example.prm392_project.R;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -59,37 +62,52 @@ public class RegisterActivity extends AppCompatActivity {
                 boolean isValid = CheckPassWord(password, confrimpassword) && CheckEmail(email);
                 if (isValid){
                     mAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         FirebaseUser currentUser = mAuth.getCurrentUser();
                                         if (currentUser != null) {
                                             // Tạo một document mới trong collection "users"
-                                            DocumentReference userRef = FirebaseFirestore.getInstance().collection("users").document(currentUser.getUid());
+
+                                            DocumentReference userRef = FirebaseFirestore.getInstance()
+                                                    .collection("users")
+                                                    .document(currentUser.getUid());
+                                            
+
                                             // Tạo đối tượng User
                                             Map<String, Object> user = new HashMap<>();
                                             user.put("Password", password);
                                             user.put("Email", email);
                                             user.put("VaiTro", "user");
+
+                                            user.put("HoTen", "");
+                                            user.put("NgaySinh", "");
+                                            user.put("GioiTinh", "");
+                                            user.put("NgheNghiep", "");
+                                            user.put("CCCD", "");
+                                            user.put("SDT", "");
+                                            user.put("Anh", "");
+                                            
                                             // Thêm dữ liệu vào Firestore
                                             userRef.set(user)
                                                     .addOnSuccessListener(aVoid -> {
-                                                        // Thêm dữ liệu thành công
+                                                        Toast.makeText(getApplicationContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                                                        Intent i = new Intent(RegisterActivity.this, MainActivity.class);
+                                                        startActivity(i);
+                                                        finishAffinity();
                                                     })
                                                     .addOnFailureListener(e -> {
-                                                        Toast.makeText(getApplicationContext(), "đăng nhập không thành công", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getApplicationContext(),
+                                                                "Lỗi khi lưu thông tin: " + e.getMessage(),
+                                                                Toast.LENGTH_SHORT).show();
                                                     });
-
-                                            // Sign in success, update UI with the signed-in user's information
-                                            Toast.makeText(getApplicationContext(), "đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                                            Intent i = new Intent(RegisterActivity.this, MainActivity.class);
-                                            startActivity(i);
-                                            finishAffinity();
-                                        } else {
-                                            // If sign in fails, display a message to the user.
-                                            Toast.makeText(getApplicationContext(), "đăng nhập không thành công", Toast.LENGTH_SHORT).show();
                                         }
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Đăng ký thất bại: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
                                     }
                                 }
                             });

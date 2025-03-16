@@ -20,7 +20,7 @@ import android.widget.Button;
 import com.example.prm392_project.R;
 import com.example.prm392_project.adapter.NewsAdapter;
 import com.example.prm392_project.adapter.NewsViewModel;
-import com.example.prm392_project.enity.BongDa;
+import com.example.prm392_project.entity.BongDa;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;

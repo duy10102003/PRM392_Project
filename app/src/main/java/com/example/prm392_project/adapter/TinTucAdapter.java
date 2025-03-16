@@ -62,13 +62,27 @@ public class TinTucAdapter extends RecyclerView.Adapter<TinTucAdapter.myViewHold
 
         holder.tvTenBaiBao.setText(tinTuc.getTenBaiBao());
         holder.tvDate.setText(tinTuc.getNgayDang());
-        Picasso.get()
-                .load(tinTuc.getAnh())
-                .into(holder.img);
+        try {
+            // Lấy ID resource từ tên drawable
+            int resourceId = context.getResources().getIdentifier(
+                    tinTuc.getAnh().replace("@drawable/", ""),
+                    "drawable",
+                    context.getPackageName()
+            );
+
+            // Hiển thị ảnh từ drawable
+            Picasso.get()
+                    .load(resourceId)
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_background)
+                    .into(holder.img);
+        } catch (Exception e) {
+            // Nếu có lỗi, hiển thị ảnh mặc định
+            holder.img.setImageResource(R.drawable.ic_launcher_background);
+        }
+
         holder.tvLuotXem.setText(tinTuc.getSoLuotXem()+ " lượt xem");
-
         holder.itemView.setOnClickListener(view -> itemCallback.onItemClick("IDBaiBao:" + String.valueOf(tinTuc.getIDBaiBao())));
-
 
     }
 

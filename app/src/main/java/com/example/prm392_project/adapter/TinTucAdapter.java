@@ -1,6 +1,5 @@
 package com.example.prm392_project.adapter;
 
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392_project.R;
+import com.example.prm392_project.adapter.ItemCallback;
 import com.example.prm392_project.entity.TinTuc;
 import com.squareup.picasso.Picasso;
 
@@ -62,7 +62,6 @@ public class TinTucAdapter extends RecyclerView.Adapter<TinTucAdapter.myViewHold
 
         holder.tvTenBaiBao.setText(tinTuc.getTenBaiBao());
         holder.tvDate.setText(tinTuc.getNgayDang());
-
         try {
             // Lấy ID resource từ tên drawable
             int resourceId = context.getResources().getIdentifier(
@@ -84,6 +83,7 @@ public class TinTucAdapter extends RecyclerView.Adapter<TinTucAdapter.myViewHold
 
         holder.tvLuotXem.setText(tinTuc.getSoLuotXem()+ " lượt xem");
         holder.itemView.setOnClickListener(view -> itemCallback.onItemClick("IDBaiBao:" + String.valueOf(tinTuc.getIDBaiBao())));
+
     }
 
     @Override

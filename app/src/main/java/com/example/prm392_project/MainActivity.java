@@ -26,6 +26,7 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity{
     private BottomNavigationView mnBottom;
+
     public static final int MY_REQUEST_CODE = 10;
     public static final int MENU_TRANG_CHU = R.id.mnTrangChu;
     public static final int MENU_DANH_MUC = R.id.mnDanhMuc;

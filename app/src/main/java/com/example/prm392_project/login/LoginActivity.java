@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(i);
+
                 overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
             }
         });
@@ -100,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         imBackC.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 finish();

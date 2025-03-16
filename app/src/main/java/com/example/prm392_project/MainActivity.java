@@ -5,13 +5,6 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import com.example.prm392_project.R;
-public class MainActivity extends AppCompatActivity {
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -22,7 +15,6 @@ import com.example.prm392_project.fragment.TinHotFragment;
 import com.example.prm392_project.fragment.TrangChuFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-
 
 public class MainActivity extends AppCompatActivity{
     private BottomNavigationView mnBottom;

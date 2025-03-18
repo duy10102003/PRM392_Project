@@ -1,4 +1,6 @@
+
 package com.example.prm392_project.login;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,14 +13,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.appnew.R;
 import com.example.prm392_project.MainActivity;
+import com.example.prm392_project.R;
+import com.example.prm392_project.admin.adminActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
+
     EditText edUserC,edPassC;
     TextView tvRegisC;
     Button btnLoginC;
@@ -39,7 +43,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(i);
-             //   overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
+
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
             }
         });
         btnLoginC.setOnClickListener(new View.OnClickListener() {
@@ -96,12 +101,14 @@ public class LoginActivity extends AppCompatActivity {
                         });
             }
         });
-//        imBackC.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                finish();
-//                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
-//            }
-//        });
+        imBackC.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                finish();
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+            }
+        });
     }
 }
+

@@ -41,7 +41,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
-import com.example.appnew.R;
+import com.example.prm392_project.R;
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MenuFragment#newInstance} factory method to

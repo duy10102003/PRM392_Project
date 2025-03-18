@@ -4,8 +4,13 @@ plugins {
 }
 
 android {
+<<<<<<< Updated upstream
     namespace 'com.example.appnew'
     compileSdk 34
+=======
+    namespace 'com.example.prm392_project'
+    compileSdk 35
+>>>>>>> Stashed changes
 
     defaultConfig {
         applicationId "com.example.appnew"

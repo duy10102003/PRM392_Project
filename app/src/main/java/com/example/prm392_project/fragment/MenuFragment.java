@@ -11,6 +11,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,26 +27,22 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.fragment.app.Fragment;
-
 import com.bumptech.glide.Glide;
-//import com.example.appnew.CalenderActivity;
-//import com.example.appnew.FootlballActivity;
-//import com.example.appnew.LichSuActivity;
-//import com.example.appnew.R;
-//import com.example.appnew.ThoiTietActivity;
-//import com.example.appnew.ThongTinTaiKhoanActivity;
-//import com.example.appnew.ViewFormActivity;
-//import com.example.appnew.enity.TaiKhoan;
-//import com.example.appnew.login.LoginActivity;
+import com.example.prm392_project.CalenderActivity;
+import com.example.prm392_project.FootlballActivity;
+import com.example.prm392_project.LichSuActivity;
+import com.example.prm392_project.R;
+import com.example.prm392_project.ThoiTietActivity;
+import com.example.prm392_project.ThongTinTaiKhoanActivity;
+import com.example.prm392_project.ViewFormActivity;
+import com.example.prm392_project.entity.TaiKhoan;
+import com.example.prm392_project.login.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
-import com.example.prm392_project.R;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MenuFragment#newInstance} factory method to
@@ -101,7 +102,7 @@ public class MenuFragment extends Fragment {
     private TextView tvDangXuat;
     private TextView tvTTTK;
     private TextView tvDangkybieumauC;
-    //TaiKhoan taiKhoan;
+    TaiKhoan taiKhoan;
     private TextView login_menufragment,weatherTextView,vietnameseCalendarTextView,FoolballTextView;
     private Switch aSwitch;
     SharedPreferences sharedPreferences;
@@ -126,26 +127,196 @@ public class MenuFragment extends Fragment {
         sharedPreferences = activity.getSharedPreferences("MODE", Context.MODE_PRIVATE);//tao file mode (neu chua co), neu co goi file ra
         //MODE_PRIVATE đây là chế độ lưu riêng tư không cho phép ứng dụng khác truy cập vào đc hoặc đọc từ ứng dụng khác
         nightMODE = sharedPreferences.getBoolean("night", false);// Truy xuất giá trị từ tệp
-        if (nightMODE) {
+        if (nightMODE){
             aSwitch.setChecked(true);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
         aSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (nightMODE) {
+                if (nightMODE){
                     //AppCompatDelegate la phuong thuc tich hop san de tuy chinh che do night mode
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    editor = sharedPreferences.edit();//mo file ra ghi noi dung vao
+                    editor =sharedPreferences.edit();//mo file ra ghi noi dung vao
                     editor.putBoolean("night", false);// mở key night lưu lại giá trị
-                } else {
+                }else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    editor = sharedPreferences.edit();
+                    editor =sharedPreferences.edit();
                     editor.putBoolean("night", true);
                 }
                 editor.apply();
             }
         });
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null)
+        {
+            tvDangXuat.setText("   Đăng nhập");
+            tvDangXuat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(activity, LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+        else
+        {
+            tvDangXuat.setText("   Đăng xuất");
+            tvDangXuat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            });
+        }
+
+        showUserInformation();
+        weatherTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, ThoiTietActivity.class);
+                startActivity(intent);
+            }
+        });
+        FoolballTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, FootlballActivity.class);
+                startActivity(intent);
+            }
+        });
+        vietnameseCalendarTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, CalenderActivity.class);
+                startActivity(intent);
+            }
+        });
+        tvLichSu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, LichSuActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        tvTTTK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, ThongTinTaiKhoanActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        tvDangkybieumauC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showdialogbottom();
+
+            }
+        });
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null){
+            getDataUser();
+        }
+    }
+    private void getDataUser() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(currentUser.getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            // Lấy thông tin từ tài liệu
+                            taiKhoan = new TaiKhoan();
+                            taiKhoan.setHoTen(document.getString("HoTen"));
+                            taiKhoan.setEmail(document.getString("Email"));
+                            taiKhoan.setAnh(document.getString("Anh"));
+
+                            tvName.setText(taiKhoan.getHoTen());
+                            tvEmail.setText(taiKhoan.getEmail());
+                            Picasso.get()
+                                    .load(taiKhoan.getAnh())
+                                    .into(imAvatar);
+                        } else {
+                            Log.d(TAG, "Document does not exist");
+                        }
+                    } else {
+                        Log.d(TAG, "Error getting document: ", task.getException());
+                    }
+                });
+    }
+    private void showdialogbottom() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog .requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottomsheetlayout);
+        LinearLayout dangtinLayout = dialog.findViewById(R.id.layoutdkdangtin);
+        LinearLayout nguoithanLayout = dialog.findViewById(R.id.layoutTimnguoithan);
+        LinearLayout toasoanLayout = dialog.findViewById(R.id.layoutTQtoasoan);
+        TextView DKdangtin = dialog.findViewById(R.id.tvDKDangtin);
+        TextView DKtimnguoithan = dialog.findViewById(R.id.tvDKtimnguoithan);
+        TextView DKthamquan = dialog.findViewById(R.id.tvDKTQToasoan);
+        DKdangtin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://docs.google.com/forms/d/e/1FAIpQLSfuKRLsZXFOJ8S3oakeDXDTKq0XAXScVJJMHU-T6znMbGz05Q/viewform?usp=sf_link";
+                Intent intent = new Intent(getActivity(), ViewFormActivity.class);
+                intent.putExtra("linknews", url);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        DKtimnguoithan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://docs.google.com/forms/d/e/1FAIpQLSdb1LLWnuzk1oGqSiJcBPPogRWhoKIH6I4s5Fo7yJAtmsgW5g/viewform?pli=1";
+                Intent intent = new Intent(getActivity(), ViewFormActivity.class);
+                intent.putExtra("linknews", url);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        DKthamquan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://docs.google.com/forms/d/e/1FAIpQLScgmYFj2NTmq53VWzNSA4OKAuxizD9UxYiaXVok_S_2k3favg/viewform";
+                Intent intent = new Intent(getActivity(), ViewFormActivity.class);
+                intent.putExtra("linknews", url);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+    }
+
+    private void showUserInformation(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null){
+            return;
+        }
+        String name = user.getDisplayName();
+        String email = user.getEmail();
+        Uri photoUrl = user.getPhotoUrl();
+        if (name == null){
+            tvName.setVisibility(View.GONE);
+        }else {
+            tvName.setVisibility(View.VISIBLE);
+            tvName.setText(name);
+        }
+        tvEmail.setText(email);
+        Glide.with(this).load(photoUrl).error(R.drawable.avatar_defaut).into(imAvatar);
+
     }
 
 }

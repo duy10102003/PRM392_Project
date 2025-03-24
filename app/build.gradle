@@ -1,9 +1,12 @@
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+}
 
-
+android {
     namespace 'com.example.prm392_project'
 
     compileSdk 34
-
 
     defaultConfig {
         applicationId "com.example.prm392_project"

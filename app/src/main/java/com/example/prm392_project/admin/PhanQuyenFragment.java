@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.example.prm392_project.R;
 import com.example.prm392_project.adapter.ItemCallback;
 import com.example.prm392_project.adapter.PhanQuyenAdapter;
-import com.example.prm392_project.enity.TaiKhoan;
+import com.example.prm392_project.entity.TaiKhoan;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;

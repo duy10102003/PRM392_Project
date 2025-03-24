@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392_project.R;
 import com.example.prm392_project.adapter.ItemCallback;
-import com.example.prm392_project.enity.TaiKhoan;
+import com.example.prm392_project.entity.TaiKhoan;
 
 import java.util.List;
 

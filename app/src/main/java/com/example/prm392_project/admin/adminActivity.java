@@ -75,26 +75,26 @@ public class adminActivity extends AppCompatActivity implements NavigationView.O
                 mCurrentFragment = FRAGMENT_TINTUC;
             }
         }
-//
-//         else if (id == R.id.nav_user_admin) {
-//            if (mCurrentFragment != FRAGMENT_USER) {
-//                loadFragment(new ThongTinTaiKhoanFragment());
-//                mCurrentFragment = FRAGMENT_USER;
-//            }
-//        }
-//        else if (id == R.id.nav_phanquyen_admin)
-//    {
-//        if (hasPermission.equals("admin0")) {
-//            if (mCurrentFragment != FRAGMENT_PHANQUYEN) {
-//                loadFragment(new PhanQuyenFragment());
-//                mCurrentFragment = FRAGMENT_PHANQUYEN;
-//            }
-//        } else {
-//            item.setEnabled(false);
-//            item.setIcon(R.drawable.baseline_lock_24);
-//            Toast.makeText(this, "Bạn không đủ quyền hạn", Toast.LENGTH_SHORT).show();
-//        }
-//    }
+
+         else if (id == R.id.nav_user_admin) {
+            if (mCurrentFragment != FRAGMENT_USER) {
+                loadFragment(new ThongTinTaiKhoanFragment());
+                mCurrentFragment = FRAGMENT_USER;
+            }
+        }
+        else if (id == R.id.nav_phanquyen_admin)
+    {
+        if (hasPermission.equals("admin0")) {
+            if (mCurrentFragment != FRAGMENT_PHANQUYEN) {
+                loadFragment(new PhanQuyenFragment());
+                mCurrentFragment = FRAGMENT_PHANQUYEN;
+            }
+        } else {
+            item.setEnabled(false);
+            item.setIcon(R.drawable.baseline_lock_24);
+            Toast.makeText(this, "Bạn không đủ quyền hạn", Toast.LENGTH_SHORT).show();
+        }
+    }
         else if (id == R.id.nav_pheduyet_admin){
             if(hasPermission.equals("admin0")){
                 if (mCurrentFragment != FRAGMENT_PHEDUYET){
